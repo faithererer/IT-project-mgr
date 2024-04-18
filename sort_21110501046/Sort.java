@@ -1,16 +1,35 @@
-public Sort{
-    public static void TheradSort(List<Integer> list){
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Sort {
+    public static List<Integer> TheradSort(List<Integer> list,List<Integer> sortedList){
         int n = list.size();
-        List<Integer> sorted = new ArrayList<>(list);
-        for(int i=0;i<n;i++){
-            new Therad(()->{
-                int ele=0;
-                while(ele<list.get(i)){
-                    ele++;
+        List<Thread> threads = new ArrayList<>();
+        AtomicInteger cur = new AtomicInteger();
+        for (int i = 0; i < n; i++) {
+            final int idx = i;
+           Thread thread = new Thread(() -> {
+                try {
+                    Thread.sleep(list.get(idx)*10);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                sorted.set(i,ele);
-            })
+               synchronized (sortedList) {
+                   sortedList.add(list.get(idx));
+               }
+
+            });
+            thread.start();
+            threads.add(thread);
         }
-        list=sorted;
+        threads.forEach((thread)->{
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return sortedList;
     }
 }
