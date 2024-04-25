@@ -12,7 +12,7 @@
   ```
 - 拉取更改:
     ```
-    git pull origin main
+    git pull origin master
     ```
   
 - 确保切换到`master`分支
@@ -21,7 +21,7 @@
   ```
   这个命令会创建一个新的分支 feature-x 并切换到这个分支。这时候，你可以在这个分支上自由地开发新功能，而不会影响 main 分支。
 
- - 编写完成
+ - 编写完成你的code后:
     ```
     git add .
     git commit -m "YOUR_NAME + 任何信息"
